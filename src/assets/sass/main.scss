@@ -1,0 +1,62 @@
+@import 'variable';
+
+@import 'components/alert';
+@import 'components/flashSale';
+
+@import 'pages/home';
+@import 'pages/layout';
+@import 'pages/global';
+@import 'pages/login';
+@import 'pages/account';
+@import 'pages/addnew';
+@import 'pages/product';
+@import 'pages/order';
+@import 'pages/about';
+
+.ant-checkbox-checked .ant-checkbox-inner {
+    background-color: $primary;
+    border-color: $primary;
+}
+
+.ant-picker {
+    width: 100%;
+}
+
+.color-table-bold {
+    background: #ececec;
+}
+
+.color-table-bold>.ant-table-cell-row-hover {
+    background: #ececec !important;
+}
+
+.ant-image-preview-wrap {
+    z-index: 9999999999999999999 !important;
+}
+
+.ant-image-preview-operations-wrapper {
+    z-index: 9999999999999999999 !important;
+}
+
+.ant-table-row {
+    z-index: 0 !important;
+}
+
+.ant-image-preview-operations-wrapper {
+    top: 85vh !important;
+    left: 42vw !important;
+    width: fit-content !important;
+}
+
+.ant-image-preview-operations {
+    width: fit-content;
+    border-radius: 15px;
+}
+
+.ant-image-preview-operations-operation {
+    border-radius: 15px;
+}
+
+.ant-picker-dropdown {
+    z-index: 999999999 !important;
+}

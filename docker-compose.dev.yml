@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  payment-gw-dev:
+    image: payment-gw-dev
+    environment:
+      - NODE_ENV=development
+    build:
+      context: . # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile.dev
+    ports:
+      - '80:80'
+    networks:
+      - payment-gw-dev
+networks:
+  payment-gw-dev:
+    driver: bridge

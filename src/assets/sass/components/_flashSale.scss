@@ -1,0 +1,49 @@
+.title-flash-sale {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    margin-bottom: 10px;
+}
+
+.title-text-fs {
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.text-fs {
+    text-transform: capitalize;
+}
+
+.group-flash-sale {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.group-child-fs {
+    padding-right: 5px;
+}
+
+.must-type-fs {
+    color: red;
+    position: absolute;
+    top: 2px;
+    left: 5px;
+}
+
+.tilte-sale {
+    margin-left: 10px;
+}
+
+@media (max-width: 700px) {
+    .title-flash-sale {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .group-flash-sale {
+        flex-direction: column;
+        margin-top: -5px
+    }
+}

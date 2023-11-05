@@ -1,0 +1,46 @@
+.d-flex {
+  display: flex;
+}
+
+.ml-10 {
+  margin-left: 10;
+}
+
+.ml-30 {
+  margin-left: 30;
+}
+
+.dynamic-delete-button {
+  position: relative;
+  top: 4px;
+  margin: 0 8px;
+  color: #999;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.dynamic-delete-button:hover {
+  color: #777;
+}
+.dynamic-delete-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.go-back-button {
+  margin: 50px;
+  margin-left: 5px;
+  margin-top: 10px;
+  border: 1px solid;
+  background-color: #6C19FF;
+  box-shadow: none;
+  color: #fff;
+
+  .go-back-text {
+    font-weight: 500;
+  }
+}
+
+.required-symbol {
+  color: red;
+}

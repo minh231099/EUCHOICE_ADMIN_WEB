@@ -1,0 +1,17 @@
+export default {
+  API_CALLING: '[api_calling]',
+  API_CALLED_SUCCESS: '[api_called_success]',
+  API_CALLED_FAILURE: '[api_called_failure]',
+  AUTH: '[auth]',
+  ACCOUNTS: '[accounts]',
+  LAYOUT: '[layout]',
+  HOMEPAGE: '[homepage]',
+  CATEGORY: '[category]',
+  PRODUCT: '[product]',
+  WAREHOUSE: '[warehouse]',
+  PROVIDER: '[provider]',
+  ORDER: '[order]',
+  BANNER: '[banner]',
+  ABOUT: '[about]',
+  BLOG: '[blog]',
+};

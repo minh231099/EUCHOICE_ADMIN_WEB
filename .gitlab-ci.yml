@@ -1,0 +1,121 @@
+variables:
+  CI_DOCKER_COMPOSE_SERVICE_NAME: payment-gw-frontend
+  CI_REGISTRY_IMAGE: payment-gw/$CI_DOCKER_COMPOSE_SERVICE_NAME
+  GIT_DEPTH: "3"
+
+stages:
+  - lint
+  - test
+  - push-registry-dev
+  - deploy-dev
+  - push-registry-staging
+  - deploy-staging
+  - push-registry-prod
+  - deploy-prod
+
+lint:
+  stage: lint
+  tags:
+    - docker-agent
+  image: node:16-alpine
+  script:
+    - yarn install
+    - yarn lint
+  only:
+    - develop
+
+# test:
+#   stage: test
+#   tags:
+#     - pwg-docker-node:16-alpine
+#   script:
+#     - echo 'Testing'
+#   only:
+#     - develop
+
+push-registry-dev:
+  stage: push-registry-dev
+  tags:
+    - paymentgw-ci
+  before_script:
+    - docker login -u $CI_HARBOR_REGISTRY_USER -p $CI_HARBOR_REGISTRY_PASSWORD $CI_HARBOR_REGISTRY
+  script:
+    - echo "$CI_HARBOR_REGISTRY/sit/$CI_DOCKER_COMPOSE_SERVICE_NAME:sit-$CI_COMMIT_SHORT_SHA"
+    - docker build -t "$CI_HARBOR_REGISTRY/sit/$CI_DOCKER_COMPOSE_SERVICE_NAME:sit-$CI_COMMIT_SHORT_SHA" -f Dockerfile.dev .
+    - docker push "$CI_HARBOR_REGISTRY/sit/$CI_DOCKER_COMPOSE_SERVICE_NAME:sit-$CI_COMMIT_SHORT_SHA"
+    - docker image rm "$CI_HARBOR_REGISTRY/sit/$CI_DOCKER_COMPOSE_SERVICE_NAME:sit-$CI_COMMIT_SHORT_SHA"
+    - docker system prune -f
+    - echo Build image and push image to harbor success
+  only:
+    - develop
+
+deploy-dev:
+  stage: deploy-dev
+  tags:
+    - paymentgw-sit-cd
+  script:
+    - export K8S_IMAGE=$CI_HARBOR_REGISTRY/sit/$CI_DOCKER_COMPOSE_SERVICE_NAME:sit-$CI_COMMIT_SHORT_SHA
+    - echo $K8S_IMAGE
+    - envsubst < ./k8s/deployment.yaml | kubectl apply -f -
+    - echo Deployment develop success
+  only:
+    - develop
+
+push-registry-staging:
+  stage: push-registry-staging
+  tags: 
+    - paymentgw-ci
+  before_script:
+    - docker login -u $CI_HARBOR_REGISTRY_USER -p $CI_HARBOR_REGISTRY_PASSWORD $CI_HARBOR_REGISTRY
+  script:
+    - echo run registry staging running
+    - docker build -t "$CI_HARBOR_REGISTRY/$CI_REGISTRY_IMAGE:uat" -f Dockerfile.staging .
+    - docker push "$CI_HARBOR_REGISTRY/$CI_REGISTRY_IMAGE:uat"
+    - docker image rm "$CI_HARBOR_REGISTRY/$CI_REGISTRY_IMAGE:uat"
+    - docker system prune -f
+    - echo Build image and push image to harbor success
+  only:
+    - staging
+
+deploy-staging:
+  stage: deploy-staging
+  environment: staging
+  tags:
+    - uat-paymentgw-cd
+  script:
+    - $K8S_CTL_UAT paymentgw-web
+    - echo run deploy staging success
+  only:
+    - staging
+
+push-registry-prod:
+  stage: push-registry-prod
+  tags:
+    - paymentgw-ci
+  before_script:
+    - docker login -u $CI_HARBOR_REGISTRY_USER -p $CI_HARBOR_REGISTRY_PASSWORD $CI_HARBOR_REGISTRY
+  script:
+    - echo run registry staging running
+    - docker build -t "$CI_HARBOR_REGISTRY/$CI_REGISTRY_IMAGE:stable" -f Dockerfile .
+    - docker push "$CI_HARBOR_REGISTRY/$CI_REGISTRY_IMAGE:stable"
+    - docker image rm "$CI_HARBOR_REGISTRY/$CI_REGISTRY_IMAGE:stable"
+    - docker system prune -f
+    - echo Build image and push image to harbor success
+  only:
+    - production
+
+deploy-prod:
+  stage: deploy-prod
+  environment: production
+  tags:
+    - pgw-cli-runner
+  before_script:
+    - docker login -u $CI_HARBOR_REGISTRY_USER -p $CI_HARBOR_REGISTRY_PASSWORD $CI_HARBOR_REGISTRY
+  script:
+    - docker pull "$CI_HARBOR_REGISTRY/gitops/payment-cli:latest"
+    - echo $K8S_CTL
+    - docker run -i $CI_HARBOR_REGISTRY/gitops/payment-cli:latest $K8S_CTL paymentgw-web
+    - echo run deploy production success
+    - docker system prune -f
+  only:
+    - production

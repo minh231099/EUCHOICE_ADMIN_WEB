@@ -1,0 +1,226 @@
+.add-new-container {
+    margin: 5px 12%;
+    justify-content: space-between;
+
+    .anchor-container {
+        width: 20%;
+
+        .anchor-cpn {
+            margin: 0;
+            padding: 0px 25px;
+        }
+
+        .ant-anchor-link-title {
+            font-size: 16px;
+        }
+
+        .ant-anchor-ink-ball {
+            height: 12px;
+            width: 12px;
+        }
+
+        .anchor-follow-screen {
+            position: fixed;
+            height: fit-content;
+            background-color: #fff;
+            padding: 20px 40px 20px 0px;
+            border-radius: 5px;
+        }
+
+    }
+
+    .form-container {
+        width: 75%;
+
+        .add-new-form-elm {
+            background-color: #fff;
+            margin-bottom: 15px;
+            padding: 10px 25px;
+            border-radius: 5px;
+
+            .form-elm-body {
+                margin: 40px;
+            }
+        }
+
+        .action-container {
+            background-color: #fff;
+        }
+    }
+}
+
+.d-grid {
+    display: grid;
+}
+
+.grid-two-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.grid-two-row {
+    .ant-list-item {
+        padding-top: 0 !important;
+        align-items: flex-start !important;
+    }
+}
+
+.grid-cell {
+    padding: 5px;
+}
+
+.delete-list-form-button {
+    font-size: 18px;
+    color: #888;
+}
+
+.prod-class-cell {
+    height: 30px;
+}
+
+.add-new-class-group-button {
+    color: $primary;
+}
+
+.add-new-class-group-button:hover {
+    background-color: #c0e5fc;
+}
+
+.apply-to-all-class-button {
+    background-color: $primary;
+    color: #fff;
+    margin-left: 25px;
+}
+
+.grid-three-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    .class-prod-class-header-cell {
+        padding: 15px;
+        border: 1px solid #ddd;
+        background-color: #eee;
+    }
+
+    .class-prod-class-header-cell:nth-child(1) {
+        border-right: 0;
+        border-top-left-radius: 5px;
+    }
+
+    .class-prod-class-header-cell:nth-child(2) {
+        border-right: 0;
+    }
+
+    .class-prod-class-header-cell:nth-child(3) {
+        border-top-right-radius: 5px;
+    }
+
+    .class-prod-class-cell {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-top: 0;
+    }
+
+    .class-prod-class-cell:nth-child(1) {
+        border-right: 0;
+    }
+
+    .class-prod-class-cell:nth-child(2) {
+        border-right: 0;
+    }
+}
+
+.grid-four-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    .class-prod-class-header-cell {
+        padding: 15px;
+        border: 1px solid #ddd;
+        background-color: #eee;
+    }
+
+    .class-prod-class-header-cell:nth-child(1) {
+        border-right: 0;
+        border-top-left-radius: 5px;
+    }
+
+    .class-prod-class-header-cell:nth-child(2) {
+        border-right: 0;
+    }
+
+    .class-prod-class-header-cell:nth-child(3) {
+        border-right: 0;
+    }
+
+    .class-prod-class-header-cell:nth-child(4) {
+        border-top-right-radius: 5px;
+    }
+
+    .class-prod-class-cell {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-top: 0;
+    }
+
+    .class-prod-class-cell:nth-child(1) {
+        border-right: 0;
+    }
+
+    .class-prod-class-cell:nth-child(2) {
+        border-right: 0;
+        padding: 0;
+
+        .prod-class-2-value {
+            display: flex;
+            height: 60px;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .prod-class-2-value:last-child {
+            border: 0;
+        }
+    }
+
+    .class-prod-class-cell:nth-child(3) {
+        border-right: 0;
+        padding: 0;
+
+        .prod-class-2-price {
+            display: flex;
+            height: 60px;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 0px 15px;
+            padding-top: 25px !important;
+        }
+
+        .prod-class-2-price:last-child {
+            border: 0;
+        }
+    }
+
+    .class-prod-class-cell:nth-child(4) {
+        border-right: 0;
+        padding: 0;
+
+        .prod-class-2-amount {
+            display: flex;
+            height: 60px;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd !important;
+            padding: 0px 15px;
+            padding-top: 25px !important;
+        }
+
+        .prod-class-2-amount:last-child {
+            border: 0;
+        }
+    }
+}
