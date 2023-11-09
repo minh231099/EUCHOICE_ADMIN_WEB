@@ -114,7 +114,7 @@ const LoginScreen = (props) => {
                 </div>
             </Card>
             <div className="footer">
-                <p>Copyright © 2023 All rights reserved by HAGA86</p>
+                <p>Copyright © 2023 All rights reserved by EUCHOICE</p>
             </div>
         </div>
     )

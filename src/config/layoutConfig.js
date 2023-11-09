@@ -7,7 +7,7 @@ export default {
     routes: SIDEBAR.ROUTES,
   },
   layout: 'top',
-  title: 'HAGA86',
+  title: 'EUCHOICE',
   logo: logo,
   fixSiderbar: true,
   navTheme: 'light',
