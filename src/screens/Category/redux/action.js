@@ -20,6 +20,8 @@ const {
     DELETE_CATEGORY,
     DELETE_LIST_CATEGORIES,
     UPDATE_CATEGORY,
+    CHANGE_ACTIVATION,
+    ADD_IMAGE_CATEGORY
 } = TYPE;
 
 /**
@@ -120,4 +122,39 @@ export const updateCategory = (id, payload) => async (dispatch) => {
         dispatch(isDispatchSuccess(updateCategoryType, response));
     }
     else dispatch(isDispatchFailed(updateCategoryType, error));
+}
+
+/**
+ * @CHANGE_ACTIVATION
+ */
+
+const changeActivationType = { prefix: CATEGORY, type: CHANGE_ACTIVATION };
+
+export const changeCateActivation = (_id, payload) => async (dispatch) => {
+    const api = API_URLS.CATEGORY.setActivation(_id);
+    dispatch(isDispatchCalling(changeActivationType));
+    const { response, error } = await apiCall({ ...api, payload });
+    if (!error && response?.success === true) {
+        dispatch(isDispatchSuccess(changeActivationType, response));
+    }
+    else dispatch(isDispatchFailed(changeActivationType, error))
+}
+
+/**
+ * @ADD_IMAGE_CATEGORY
+ */
+
+const uploadImgCateType = { prefix: CATEGORY, type: ADD_IMAGE_CATEGORY }
+
+export const uploadImgCate = (_id, listImg) => async (dispatch) => {
+    const api = API_URLS.CATEGORY.uploadImage(_id);
+    dispatch(isDispatchCalling(uploadImgCateType));
+    let formData = new FormData();
+    Array.from(listImg).forEach(img => {
+        formData.append('file', img.originFileObj);
+    });
+    const { response, error } = await apiCall({ ...api, payload: formData, maxBodyLength: Infinity });
+    if (!error && response?.success === true)
+        dispatch(isDispatchSuccess(uploadImgCateType, response));
+    else dispatch(isDispatchFailed(uploadImgCateType, error));
 }

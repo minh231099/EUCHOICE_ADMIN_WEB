@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import select from '../../utils/select';
 import toJs from '../../hoc/ToJS';
 
-import { addNewCategory, deleteListCategories, getListCategory, updateCategory } from './redux/action';
+import { addNewCategory, changeCateActivation, deleteListCategories, getListCategory, updateCategory, uploadImgCate } from './redux/action';
 
 import CategoryTable from './components/CategoryTable';
 import AddNewCategoryModal from './components/AddNewCategoryModal';
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
+import DetailCateModal from './components/DetailCateModal';
 
 const convertMessageToTranslatorKey = (val) => {
     const kym = {
@@ -20,9 +21,11 @@ const convertMessageToTranslatorKey = (val) => {
 }
 
 const CategoryScreen = (props) => {
-    const { categories, pagination, isFetching, getListCategory, addNewCategory, addNewStatus, errorMessage, updateCategory, updateStatus, deleteListCategories, deleteStatus } = props
+    const { categories, pagination, isFetching, getListCategory, addNewCategory, addNewStatus, errorMessage, updateCategory, updateStatus, deleteListCategories, uploadImage, deleteStatus, setActivation } = props
     const [refreshing, setRefreshing] = useState(undefined);
     const [addNewModalVisible, setAddNewModalVisible] = useState(false);
+    const [detailModalVisible, setDetailModalVisible] = useState(false);
+    const [rowData, setRowData] = useState(null);
 
     const { t } = useTranslation();
 
@@ -83,6 +86,10 @@ const CategoryScreen = (props) => {
         setAddNewModalVisible(true);
     }
 
+    const onClickDetailCategory = () => {
+        setDetailModalVisible(true);
+    }
+
     const onSubmitAddNew = (newCategory) => {
         addNewCategory(newCategory);
     }
@@ -91,12 +98,20 @@ const CategoryScreen = (props) => {
         setAddNewModalVisible(false);
     }
 
+    const onCancelDetail = () => {
+        setDetailModalVisible(false);
+    }
+
     const onDeleteCategory = (listId) => {
         deleteListCategories(listId);
     }
 
     const onUpdateCategory = (id, payload) => {
         updateCategory(id, payload);
+    }
+
+    const onChangeActivation = (id) => {
+        setActivation(id);
     }
 
     return (
@@ -108,13 +123,23 @@ const CategoryScreen = (props) => {
                 pagination={pagination}
                 requestFunc={filterListCategory}
                 onClickAddNew={onClickAddNewCategory}
+                onClickDetailCategory={onClickDetailCategory}
                 onDelete={onDeleteCategory}
                 onUpdate={onUpdateCategory}
+                onChangeActivation={onChangeActivation}
+                setRowData={setRowData}
             />
             <AddNewCategoryModal
                 visible={addNewModalVisible}
                 onOk={onSubmitAddNew}
                 onCancel={onCancelAddNew}
+            />
+            <DetailCateModal
+                visible={detailModalVisible}
+                onCancel={onCancelDetail}
+                data={rowData}
+                onUpdate={onUpdateCategory}
+                uploadImage={uploadImage}
             />
         </div>
     );
@@ -139,7 +164,9 @@ function mapDispatchToProps(dispatch) {
         getListCategory: (paramrs) => dispatch(getListCategory(paramrs)),
         addNewCategory: (payload) => dispatch(addNewCategory(payload)),
         updateCategory: (id, payload) => dispatch(updateCategory(id, payload)),
-        deleteListCategories: (payload) => dispatch(deleteListCategories(payload))
+        deleteListCategories: (payload) => dispatch(deleteListCategories(payload)),
+        setActivation: (id) => dispatch(changeCateActivation(id)),
+        uploadImage: (id, listImg) => dispatch(uploadImgCate(id, listImg)),
     };
 }
 

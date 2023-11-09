@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { Button, Input, Space, Switch, Typography } from "antd";
+import { Button, Image, Input, Space, Switch, Typography } from "antd";
 import ProTable from "@ant-design/pro-table";
-import { AppstoreAddOutlined, CheckOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons";
+import { AppstoreAddOutlined, CheckOutlined, CloseOutlined, EditOutlined, RotateLeftOutlined, RotateRightOutlined, ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 
 const { Text } = Typography;
 
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const CategoryTable = (props) => {
-    const { data, loading, polling, requestFunc, onClickAddNew, onDelete, onUpdate, pagination } = props;
+    const { data, loading, polling, requestFunc, onClickAddNew, onClickDetailCategory, setRowData, onDelete, onUpdate, pagination, onChangeActivation } = props;
 
     const { t } = useTranslation();
 
@@ -86,6 +87,37 @@ const CategoryTable = (props) => {
             key: 'name',
         },
         {
+            title: t('imageCategory'),
+            key: 'image',
+            hideInSearch: true,
+            // width: 120,
+            align: 'center',
+            render: (_value) => {
+                return (
+                    <Image
+                        width={100}
+                        src={`${baseUrl}image/${_value.image}`}
+                        preview={{
+                            toolbarRender: (
+                                _,
+                                {
+                                    transform: { scale },
+                                    actions: { onRotateLeft, onRotateRight, onZoomOut, onZoomIn },
+                                },
+                            ) => (
+                                <Space size={12} className="toolbar-wrapper">
+                                    <RotateLeftOutlined onClick={onRotateLeft} />
+                                    <RotateRightOutlined onClick={onRotateRight} />
+                                    <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
+                                    <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
+                                </Space>
+                            ),
+                        }}
+                    />
+                )
+            }
+        },
+        {
             title: t('numberOfProd'),
             dataIndex: 'numberOfProd',
             key: 'numberOfProd',
@@ -94,9 +126,9 @@ const CategoryTable = (props) => {
             title: t('on/off'),
             dataIndex: 'isOn',
             key: 'isOn',
-            render: () => (
+            render: (_value, record) => (
                 <Space size="middle">
-                    <Switch />
+                    <Switch defaultChecked={!record.hide} onChange={() => { onChangeActivation(record._id) }} />
                 </Space>
             )
         },
@@ -104,9 +136,12 @@ const CategoryTable = (props) => {
             title: t('action'),
             key: 'action',
             hideInSearch: true,
-            render: () => (
+            render: (_value, record) => (
                 <Space>
-                    <a>Xem Chi Tiết</a>
+                    <a onClick={() => {
+                        onClickDetailCategory()
+                        setRowData(record)
+                    }}>Xem Chi Tiết</a>
                 </Space>
             )
         }

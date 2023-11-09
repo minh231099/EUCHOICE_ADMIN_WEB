@@ -23,6 +23,7 @@ const AddNewCategoryModal = (props) => {
             open={visible}
             destroyOnClose={true}
             maskClosable={false}
+            onCancel={onCancel}
             footer={
                 <div>
                     <Button

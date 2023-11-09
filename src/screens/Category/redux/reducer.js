@@ -12,6 +12,7 @@ const {
     DELETE_CATEGORY,
     DELETE_LIST_CATEGORIES,
     UPDATE_CATEGORY,
+    CHANGE_ACTIVATION
 } = TYPE;
 
 const initialState = fromJS({
@@ -63,7 +64,29 @@ const categoryReducer = (state = initialState, action) => {
                     })
                 );
             }
+        case CHANGE_ACTIVATION: {
+            if (isCallingApi(action)) {
+                return state.merge(
+                    fromJS({
 
+                    })
+                );
+            };
+            if (isSuccessfulApiCall(action)) {
+                return state.merge(
+                    fromJS({
+
+                    })
+                );
+            };
+            if (isFailedApiCall(action)) {
+                return state.merge(
+                    fromJS({
+
+                    })
+                );
+            };
+        }
         case ADD_NEW_CATEGORY:
             if (isCallingApi(action)) {
                 return state.merge(

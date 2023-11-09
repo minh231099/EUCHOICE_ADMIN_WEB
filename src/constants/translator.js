@@ -8,6 +8,7 @@ export default {
             categories: 'Categories',
             selected: 'Selected',
             addNewCategory: 'Add New Category',
+            detailCategory: 'Category Detail',
             categoryName: 'Category Name',
             pleaseInputCategoryName: 'Please Input Category Name',
             name: 'Name',
@@ -16,6 +17,7 @@ export default {
             'on/off': 'On/Off',
             cancel: 'Cancel',
             save: 'Save',
+            imageCategory: 'Image Category',
             addnewcategorysuccess: 'Category Saved Successfully',
             nameisexist: "Category's Name Is Exist!",
             updatenewcategorysuccess: 'Category Updated Successfully',
@@ -187,6 +189,7 @@ export default {
             Content: 'Content',
             Save: 'Save',
             'Cover Image': 'Cover Image',
+            pleaseEnterCategoryName: 'Please Enter Category Name'
         },
     },
     vn: {
@@ -198,6 +201,7 @@ export default {
             categories: 'Danh Mục',
             selected: 'Đã Chọn',
             addNewCategory: 'Thêm Mới Danh Mục',
+            detailCategory: 'Chi Tiết Danh Mục',
             categoryName: 'Tên Danh Mục',
             pleaseInputCategoryName: 'Vui Lòng Nhập Tên Danh Mục',
             name: 'Tên',
@@ -206,6 +210,7 @@ export default {
             'on/off': 'Bật/Tắt',
             cancel: 'Hủy',
             save: 'Lưu',
+            imageCategory: 'Ảnh',
             addnewcategorysuccess: 'Lưu Danh Mục Thành Công',
             nameisexist: 'Tên Danh Mục Đã Tồn Tại',
             updatenewcategorysuccess: 'Cập Nhật Danh Mục Thành Công',
@@ -377,6 +382,7 @@ export default {
             Content: 'Nội Dung',
             Save: 'Lưu',
             'Cover Image': 'Ảnh Bìa',
+            pleaseEnterCategoryName: 'Vui Lòng Nhập Tên Danh Mục'
         },
     },
 }

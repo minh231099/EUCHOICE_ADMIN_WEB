@@ -125,6 +125,16 @@ export const API_URLS = {
       method: 'PUT',
       headers: HEADERS.header(),
     }),
+    setActivation: (_id) => ({
+      endPoint: `v1/category/hide/${_id}`,
+      method: 'PUT',
+      headers: HEADERS.header(),
+    }),
+    uploadImage: (_id) => ({
+      endPoint: `v1/image/upload/category/${_id}`,
+      method: 'POST',
+      headers: HEADERS.file_header(),
+    })
   },
   PRODUCT: {
     getListProduct: (page, limit) => ({
