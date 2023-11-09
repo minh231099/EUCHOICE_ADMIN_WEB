@@ -199,14 +199,14 @@ const CategoryTable = (props) => {
                     {t('addNewCategory')}
                 </Button>,
             ]}
-            tableAlertRender={(props) => {
-                const { selectedRows } = props
-                return (
-                    <Text>
-                        {`${t('selected')} ${selectedRows.length} ${selectedRows.length > 1 ? t('category') : t('categories')}`}
-                    </Text>
-                )
-            }}
+            // tableAlertRender={(props) => {
+            //     const { selectedRows } = props
+            //     return (
+            //         <Text>
+            //             {`${t('selected')} ${selectedRows.length} ${selectedRows.length > 1 ? t('category') : t('categories')}`}
+            //         </Text>
+            //     )
+            // }}
             tableAlertOptionRender={() => {
                 return (
                     <Space size={16}>
