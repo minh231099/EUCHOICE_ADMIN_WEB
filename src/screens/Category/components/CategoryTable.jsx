@@ -199,20 +199,23 @@ const CategoryTable = (props) => {
                     {t('addNewCategory')}
                 </Button>,
             ]}
-            tableAlertRender={(props) => {
-                const { selectedRows } = props
-                return (
-                    <Text>
-                        {`${t('selected')} ${selectedRows.length} ${selectedRows.length > 1 ? t('category') : t('categories')}`}
-                    </Text>
-                )
-            }}
-            tableAlertOptionRender={() => {
+            // tableAlertRender={(props) => {
+            //     const { selectedRows } = props
+            //     return (
+            //         <Text>
+            //             {`${t('selected')} ${selectedRows.length} ${selectedRows.length > 1 ? t('category') : t('categories')}`}
+            //         </Text>
+            //     )
+            // }}
+            tableAlertOptionRender={(props) => {
                 return (
                     <Space size={16}>
                         <Button
                             key="deleteButton"
-                            onClick={handleDelete}
+                            onClick={() => {
+                                handleDelete();
+                                props.onCleanSelected()
+                            }}
                         >
                             Xóa
                         </Button>
