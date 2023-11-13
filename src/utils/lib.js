@@ -77,6 +77,14 @@ export const splitAPICategoryAdd = (listAPI) => {
   return categories;
 };
 
+export const compareDate = (date) => {
+  const today = new Date();
+  const endSale = new Date(date);
+  if (endSale > today)
+    return true;
+  else return false;
+}
+
 export const dateRangeValidate = (dateRange) => {
   if (!dateRange) return undefined;
 

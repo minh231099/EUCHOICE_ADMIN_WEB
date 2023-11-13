@@ -189,7 +189,10 @@ export default {
             Content: 'Content',
             Save: 'Save',
             'Cover Image': 'Cover Image',
-            pleaseEnterCategoryName: 'Please Enter Category Name'
+            pleaseEnterCategoryName: 'Please Enter Category Name',
+            isSale: 'Is Sale?',
+            onSale: 'On Sale!',
+            notOnSale: 'Not On Sale!',
         },
     },
     vn: {
@@ -382,7 +385,10 @@ export default {
             Content: 'Nội Dung',
             Save: 'Lưu',
             'Cover Image': 'Ảnh Bìa',
-            pleaseEnterCategoryName: 'Vui Lòng Nhập Tên Danh Mục'
+            pleaseEnterCategoryName: 'Vui Lòng Nhập Tên Danh Mục',
+            isSale: 'Có giảm giá?',
+            onSale: 'Đang giảm giá!',
+            notOnSale: 'Không giảm giá!',
         },
     },
 }

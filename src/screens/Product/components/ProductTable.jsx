@@ -2,9 +2,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import ProTable from "@ant-design/pro-table";
-import { Button } from "antd";
+import { Button, Tag } from "antd";
 import { DeleteOutlined, EditOutlined, MedicineBoxOutlined, ThunderboltOutlined } from "@ant-design/icons";
-import { generateKey } from "../../../utils/lib";
+import { compareDate, generateKey } from "../../../utils/lib";
 
 const ProductTable = (props) => {
     const { t } = useTranslation();
@@ -78,6 +78,30 @@ const ProductTable = (props) => {
                             )
                         }
                     </>
+                )
+            }
+        },
+        {
+            title: t('isSale'),
+            ellipsis: true,
+            key: 'isSale',
+            hideInSearch: true,
+            sorter: true,
+            render: (_, record) => {
+                return (
+                    <div>
+                        {compareDate(record?.endSale) ? <Tag
+                            color='green'
+                            style={{ display: "flex", width: '120px', alignItems: 'center', justifyContent: 'center' }}
+                        >
+                            <span style={{ fontSize: 14 }}>{t(`onSale`)}</span>
+                        </Tag> : <Tag
+                            color='red'
+                            style={{ display: "flex", width: '120px', alignItems: 'center', justifyContent: 'center' }}
+                        >
+                            <span style={{ fontSize: 14 }}>{t(`notOnSale`)}</span>
+                        </Tag>}
+                    </div>
                 )
             }
         },
