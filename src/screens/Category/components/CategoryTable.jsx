@@ -207,12 +207,15 @@ const CategoryTable = (props) => {
             //         </Text>
             //     )
             // }}
-            tableAlertOptionRender={() => {
+            tableAlertOptionRender={(props) => {
                 return (
                     <Space size={16}>
                         <Button
                             key="deleteButton"
-                            onClick={handleDelete}
+                            onClick={() => {
+                                handleDelete();
+                                props.onCleanSelected()
+                                }}
                         >
                             Xóa
                         </Button>
