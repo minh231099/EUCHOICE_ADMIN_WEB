@@ -6,6 +6,14 @@ import { useForm } from "antd/lib/form/Form";
 import { CloseOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { deepCopyObj, generateKey } from "../../../utils/lib";
 import { useNavigate } from "react-router";
+import { DndContext, PointerSensor, useSensor } from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    useSortable,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 const { Link } = Anchor;
 const { Item } = Form;
@@ -353,6 +361,44 @@ const UpdateProductForm = (props) => {
         onClickDeleteImage(file.name);
     }
 
+    const sensor = useSensor(PointerSensor, {
+        activationConstraint: {
+            distance: 10,
+        },
+    });
+
+    const DraggableUploadListItem = ({ originNode, file }) => {
+        const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+            id: file.uid,
+        });
+        const style = {
+            transform: CSS.Transform.toString(transform),
+            transition,
+            cursor: 'move',
+        };
+        return (
+            <div
+                ref={setNodeRef}
+                style={style}
+                className={isDragging ? 'is-dragging' : ''}
+                {...attributes}
+                {...listeners}
+            >
+                {file.status === 'error' && isDragging ? originNode.props.children : originNode}
+            </div>
+        );
+    };
+
+    const onDragEnd = ({ active, over }) => {
+        if (active.id !== over?.id) {
+            setFileList((prev) => {
+                const activeIndex = prev.findIndex((i) => i.uid === active.id);
+                const overIndex = prev.findIndex((i) => i.uid === over?.id);
+                return arrayMove(prev, activeIndex, overIndex);
+            });
+        }
+    };
+
     return (
         <div className="add-new-container d-flex">
             <div className="anchor-container">
@@ -370,24 +416,32 @@ const UpdateProductForm = (props) => {
                         <h2>{t('basicInformation')}</h2>
                         <div className='form-elm-body'>
                             <Item labelCol={{ span: 5 }} name='image' label={t('prodImages')} valuePropName="fileList" getValueFromEvent={normFile} required>
-                                <Upload
-                                    listType="picture-card"
-                                    beforeUpload={handleBeforeUploadImage}
-                                    fileList={fileList}
-                                    defaultFileList={[...fileList]}
-                                    onChange={handleChange}
-                                    onPreview={handlePreview}
-                                    customRequest={customRequest}
-                                    maxCount={10}
-                                    onRemove={handleRemoveUploadImage}
-                                >
-                                    {
-                                        fileList.length < 10 && <div>
-                                            <PlusOutlined />
-                                            <div style={{ marginTop: 8 }}>Upload</div>
-                                        </div>
-                                    }
-                                </Upload>
+                                <DndContext sensors={[sensor]} onDragEnd={onDragEnd}>
+                                    <SortableContext items={fileList.map((i) => i.uid)} strategy={verticalListSortingStrategy}>
+                                        <Upload
+                                            listType="picture-card"
+                                            beforeUpload={handleBeforeUploadImage}
+                                            fileList={fileList}
+                                            defaultFileList={[...fileList]}
+                                            onChange={handleChange}
+                                            onPreview={handlePreview}
+                                            customRequest={customRequest}
+                                            maxCount={10}
+                                            onRemove={handleRemoveUploadImage}
+                                            itemRender={(originNode, file) => (
+                                                <DraggableUploadListItem originNode={originNode} file={file} />
+                                            )}
+                                        >
+                                            {
+                                                fileList.length < 10 && <div>
+                                                    <PlusOutlined />
+                                                    <div style={{ marginTop: 8 }}>Upload</div>
+                                                </div>
+                                            }
+                                        </Upload>
+                                    </SortableContext>
+                                </DndContext>
+
                             </Item>
                             <Item labelCol={{ span: 5 }} name="name" label={t('prodName')} initialValue={name} required>
                                 <Input />
