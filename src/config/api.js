@@ -209,7 +209,7 @@ export const API_URLS = {
     uploadImagesForProduct: (productId) => ({
       endPoint: `v1/image/upload/product/${productId}`,
       method: 'POST',
-      headers: HEADERS.header(),
+      headers: HEADERS.file_header(),
     }),
   },
   PROVIDER: {
