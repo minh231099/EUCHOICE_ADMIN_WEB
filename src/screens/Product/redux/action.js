@@ -56,9 +56,16 @@ export const uploadImageForProduct = (prodId, listImg) => async (dispatch) => {
     const api = API_URLS.PRODUCT.uploadImagesForProduct(prodId);
     dispatch(isDispatchCalling(uploadImageForProductType));
     let formData = new FormData();
+
+    console.log(listImg);
+
     Array.from(listImg).forEach(img => {
-        formData.append('file', img.originFileObj);
+        if (img.originFileObj)
+            formData.append('file', img.originFileObj);
+        else
+            formData.append('file', img.name);
     });
+
     const { response, error } = await apiCall({ ...api, payload: formData, maxBodyLength: Infinity });
 
     if (response)

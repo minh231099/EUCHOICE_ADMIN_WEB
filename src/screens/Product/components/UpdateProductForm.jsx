@@ -50,7 +50,7 @@ const UpdateProductForm = (props) => {
             });
             setSubmiting(false);
         } else if (updateStatus === 'uploading' && submiting) {
-            if (productId) {
+            if (productId && fileList) {
                 uploadImageForProduct(productId, fileList)
             }
         } else if (updateStatus === 'fail uploading' && submiting) {
