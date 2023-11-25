@@ -1,4 +1,4 @@
-import { Button, Input, Upload } from "antd";
+import { Button, Input, Upload, notification } from "antd";
 import { AtomicBlockUtils, ContentState, EditorState, RichUtils, convertFromHTML, getDefaultKeyBinding } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import toJs from '../../hoc/ToJS';
 import select from '../../utils/select';
 import { getInfoBlog, updateBlog, uploadNewBlog } from './redux/action';
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { PlusOutlined } from '@ant-design/icons';
 import TextArea from "antd/lib/input/TextArea";
@@ -17,9 +17,10 @@ const imagePlugin = createImagePlugin();
 const plugins = [imagePlugin];
 
 const CreateNewBlogPage = (props) => {
-    const { uploadNewBlog, getInfoBlog, infoBlog, updateBlog } = props;
+    const { uploadNewBlog, getInfoBlog, infoBlog, updateBlog, successUpload} = props;
     const { t } = useTranslation();
 
+    const navigate = useNavigate();
     const { id } = useParams();
 
     useEffect(() => {
@@ -33,6 +34,26 @@ const CreateNewBlogPage = (props) => {
     const [image, setImage] = useState('');
     const [brief, setBrief] = useState('');
     const [fileList, setFileList] = useState([]);
+
+    const [onClickSubmit, setOnClickSubmit] = useState(false);
+
+    useEffect(() => {
+        if (onClickSubmit) {
+            if (successUpload) {
+                notification.success({
+                    message: 'Upload Success',
+                });
+                navigate('/blog');
+            }
+            else {
+                notification.error({
+                    message: 'Upload Failed',
+                });
+            }
+            
+            setOnClickSubmit(false);
+        }
+    }, [successUpload]);
 
     useEffect(() => {
         if (id && infoBlog) {
@@ -148,6 +169,7 @@ const CreateNewBlogPage = (props) => {
             const content = stateToHTML(contentState);
             updateBlog(id, { title, content, image, brief });
         }
+        setOnClickSubmit(true);
     }
 
     const customRequest = ({ onSuccess }) => {
@@ -342,12 +364,13 @@ function mapStateToProps(state) {
     return {
         successUpload: select(state, 'blogReducer', 'successUpload'),
         infoBlog: select(state, 'blogReducer', 'infoBlog'),
+        successUpload: select(state, 'blogReducer', 'successUpload'),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        uploadNewBlog: (title, content, image) => dispatch(uploadNewBlog(title, content, image)),
+        uploadNewBlog: (title, content, image, brief) => dispatch(uploadNewBlog(title, content, image, brief)),
         getInfoBlog: (id) => dispatch(getInfoBlog(id)),
         updateBlog: (id, payload) => dispatch(updateBlog(id, payload)),
     };

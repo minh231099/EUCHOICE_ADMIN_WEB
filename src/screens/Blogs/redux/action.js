@@ -15,9 +15,9 @@ const { UPLOAD_NEW_BLOG, LIST_BLOG, INFO_BLOG, UPDATE_BLOG, DELETE_BLOG } = TYPE
 const uploadNewBlogType = { prefix: BLOG, type: UPLOAD_NEW_BLOG };
 
 export const uploadNewBlog = (title, content, image, brief) => async (dispatch) => {
-    const payload = { title, content, image, brief}
+    const payload = { title, content, image, brief };
     const api = API_URLS.BLOG.uploadNewBlog();
-
+    
     dispatch(isDispatchCalling(uploadNewBlogType));
 
     const { response, error } = await apiCall({ ...api, payload });

@@ -115,6 +115,7 @@ const UpdateProductPage = (props) => {
     const onSubmitForm = (values, isAddNewGroup, nameGroupClass1, nameGroupClass2, listProdClass1, listProdClass2, calculatorIndex) => {
         if (validationSubmit(values, isAddNewGroup)) {
             const { name, category, warehouse, price, amount, description, material, size, volume, brand, provider, weight, image } = values;
+            
             const type = isAddNewGroup ?
                 convertToListType(nameGroupClass1, nameGroupClass2, listProdClass1, listProdClass2, values, calculatorIndex)
                 :
@@ -122,6 +123,7 @@ const UpdateProductPage = (props) => {
                     price: price,
                     amount: amount,
                 }];
+
             const productInfo = {
                 group1: listProdClass1.length ? nameGroupClass1 : undefined,
                 group2: listProdClass2.length ? nameGroupClass2 : undefined,

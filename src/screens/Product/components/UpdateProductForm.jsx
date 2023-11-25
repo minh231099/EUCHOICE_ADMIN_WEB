@@ -110,8 +110,8 @@ const UpdateProductForm = (props) => {
                 } else {
                     listForm[0] = { innerList: [] }
                     listProd1.forEach((_, index) => {
-                        defaultBody[`priceProd_${calculatorIndex(index, 0)}`] = type[0].price;
-                        defaultBody[`amountProd_${calculatorIndex(index, 0)}`] = type[0].amount;
+                        defaultBody[`priceProd_${calculatorIndex(index, 0)}`] = type[index].price;
+                        defaultBody[`amountProd_${calculatorIndex(index, 0)}`] = type[index].amount;
                         listForm[0].innerList.push({});
                     });
                 }
@@ -420,6 +420,7 @@ const UpdateProductForm = (props) => {
                                     <SortableContext items={fileList.map((i) => i.uid)} strategy={verticalListSortingStrategy}>
                                         <Upload
                                             listType="picture-card"
+                                            multiple={true}
                                             beforeUpload={handleBeforeUploadImage}
                                             fileList={fileList}
                                             defaultFileList={[...fileList]}
@@ -441,7 +442,6 @@ const UpdateProductForm = (props) => {
                                         </Upload>
                                     </SortableContext>
                                 </DndContext>
-
                             </Item>
                             <Item labelCol={{ span: 5 }} name="name" label={t('prodName')} initialValue={name} required>
                                 <Input />

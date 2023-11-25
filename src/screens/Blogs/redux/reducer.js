@@ -120,6 +120,7 @@ const blogReducer = (state = initialState, action) => {
                 return state.merge(
                     fromJS({
                         error: false,
+                        successUpload: false,
                     })
                 )
             }
@@ -127,6 +128,7 @@ const blogReducer = (state = initialState, action) => {
                 return state.merge(
                     fromJS({
                         error: false,
+                        successUpload: true,
                     })
                 )
             }
@@ -134,6 +136,7 @@ const blogReducer = (state = initialState, action) => {
                 return state.merge(
                     fromJS({
                         error: true,
+                        successUpload: false,
                     })
                 )
             }
