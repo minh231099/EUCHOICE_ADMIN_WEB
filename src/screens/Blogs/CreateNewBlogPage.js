@@ -1,4 +1,4 @@
-import { Button, Input, Upload, notification } from "antd";
+import { Button, Input, Modal, Upload, notification } from "antd";
 import { AtomicBlockUtils, ContentState, EditorState, RichUtils, convertFromHTML, getDefaultKeyBinding } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -17,7 +17,7 @@ const imagePlugin = createImagePlugin();
 const plugins = [imagePlugin];
 
 const CreateNewBlogPage = (props) => {
-    const { uploadNewBlog, getInfoBlog, infoBlog, updateBlog, successUpload} = props;
+    const { uploadNewBlog, getInfoBlog, infoBlog, updateBlog, successUpload } = props;
     const { t } = useTranslation();
 
     const navigate = useNavigate();
@@ -50,7 +50,7 @@ const CreateNewBlogPage = (props) => {
                     message: 'Upload Failed',
                 });
             }
-            
+
             setOnClickSubmit(false);
         }
     }, [successUpload]);
@@ -186,6 +186,19 @@ const CreateNewBlogPage = (props) => {
         if (fileList.length === 0) setImage(null);
     }
 
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+
+    const handlePreview = async (file) => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        setPreviewImage(file.url || file.preview);
+        setPreviewOpen(true);
+    };
+
+    const handleCancelPreview = () => setPreviewOpen(false);
+
     return (
         <div className='about-form-body'>
             <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '15px 0' }}>
@@ -205,6 +218,7 @@ const CreateNewBlogPage = (props) => {
                     fileList={fileList}
                     defaultFileList={[...fileList]}
                     onChange={handleChangeTitleImage}
+                    onPreview={handlePreview}
                     maxCount={1}
                 >
                     {
@@ -262,6 +276,15 @@ const CreateNewBlogPage = (props) => {
                     </div>
                 </div >
             </div>
+            <Modal open={previewOpen} title='Cover' footer={null} onCancel={handleCancelPreview} width={800}>
+                <img
+                    alt="example"
+                    style={{
+                        width: '100%',
+                    }}
+                    src={previewImage}
+                />
+            </Modal>
         </div>
     );
 }
