@@ -15,7 +15,7 @@ const CategoryScreen = (props) => {
         orders,
         isFetching,
         getListOrder,
-        changeStatus,
+        // changeStatus,
         chageOrderStatusToShipping,
         changeOrderStatusToPacking,
         cancelStatus,
@@ -30,11 +30,11 @@ const CategoryScreen = (props) => {
         setListOrders(JSON.parse(JSON.stringify(orders)));
     }, [JSON.stringify(orders)]);
 
-    useEffect(() => {
-        if (changeStatus === 'success') {
-            setRefreshing(true);
-        }
-    }, [changeStatus]);
+    // useEffect(() => {
+    //     if (changeStatus === 'success') {
+    //         setRefreshing(true);
+    //     }
+    // }, [changeStatus]);
 
     const showNotifi = (message, type) => {
         notification.open({

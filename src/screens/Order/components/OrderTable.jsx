@@ -56,6 +56,17 @@ const OrderTable = (props) => {
         return tmp.length > 0;
     }
 
+    
+    const onClickChangeStatusToPacking = (order) => {
+        order.status = 'packing';
+        changeOrderStatusToPacking(order._id);
+    }
+
+    const onClickChangeStatusToShipping = (order) => {
+        order.status = 'shipping';
+        chageOrderStatusToShipping(order._id);
+    }
+
     const columns = [
         {
             title: t('orderId'),
@@ -125,7 +136,7 @@ const OrderTable = (props) => {
                                             color: record.status == 'new' ? '#2069b3' : '#ccc',
                                             cursor: 'pointer',
                                         }}
-                                        onClick={() => { changeOrderStatusToPacking(record._id) }}
+                                        onClick={() => { onClickChangeStatusToPacking(record) }}
                                     />
                                 }
                                 disabled={record.status !== 'new'}
@@ -143,10 +154,10 @@ const OrderTable = (props) => {
                                             color: record.status == 'packing' ? '#2069b3' : '#ccc',
                                             cursor: 'pointer',
                                         }}
-                                        onClick={() => { chageOrderStatusToShipping(record._id) }}
+                                        onClick={() => { onClickChangeStatusToShipping(record) }}
                                     />
                                 }
-                                disabled={record.status !== 'new'}
+                                disabled={record.status === 'cancel'}
                             />
                         </Popover>
                     </>
