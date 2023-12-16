@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Image, Modal, Row, Space, message } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,28 +16,35 @@ const UpdateBanner = (props) => {
     const [form] = ProForm.useForm();
     const dispatch = useDispatch();
     const { t } = useTranslation();
+    const [isSide, setIsSide] = useState(false);
 
     const successUpd = toJSVarible(useSelector((state) => select(state, ['bannersReducer'], 'successUpd')));
 
     useEffect(() => {
         form.resetFields();
         form.setFieldsValue(props.data);
+        if (props.data.pos1 || props.data.pos2)
+            setIsSide(true)
     }, [props]);
 
     useEffect(() => {
         if (successUpd) {
             form.resetFields();
             props.onClose();
+            setIsSide(false);
             message.success(t("updateBannerSuccessfully"));
         }
     }, [successUpd]);
 
     const onFinish = async (values) => {
-        dispatch(updBanner(props?.data?._id, values));
+        const infoBanner = { ...values };
+        delete infoBanner.isSide
+        dispatch(updBanner(props?.data?._id, infoBanner));
     }
 
     const onClose = () => {
         props.onClose();
+        setIsSide(false);
         form.resetFields();
     }
     return (
@@ -129,8 +136,61 @@ const UpdateBanner = (props) => {
                             <ProFormSwitch
                                 name="main"
                                 label={t("isMain")}
+                                dependencies={['isSide']}
+                                shouldUpdate={(prevValues, curValues) => curValues.isSide === false}
+                                onChange={(value) => {
+                                    if (value) {
+                                        form.setFieldsValue({ isSide: false });
+                                        setIsSide(false)
+                                    }
+                                }}
                             />
                         </Col>
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                            <ProFormSwitch
+                                name="isSide"
+                                label={t("isSide")}
+                                dependencies={['main']}
+                                shouldUpdate={(prevValues, curValues) => curValues.main === false}
+                                onChange={(value) => {
+                                    if (value) {
+                                        form.setFieldsValue({ main: false });
+                                    }
+                                    setIsSide(value)
+                                }}
+                            />
+                        </Col>
+                        {
+                            isSide ?
+                                <>
+                                    <Col lg={12} md={12} sm={12} xs={24}>
+                                        <ProFormSwitch
+                                            name="pos1"
+                                            label={t("pos1")}
+                                            dependencies={['pos2']}
+                                            shouldUpdate={(prevValues, curValues) => curValues.pos2 === false}
+                                            onChange={(value) => {
+                                                if (value) {
+                                                    form.setFieldsValue({ pos2: false });
+                                                }
+                                            }}
+                                        />
+                                    </Col>
+                                    <Col lg={12} md={12} sm={12} xs={24}>
+                                        <ProFormSwitch
+                                            name="pos2"
+                                            label={t("pos2")}
+                                            dependencies={['pos1']}
+                                            shouldUpdate={(prevValues, curValues) => curValues.pos1 === false}
+                                            onChange={(value) => {
+                                                if (value) {
+                                                    form.setFieldsValue({ pos1: false });
+                                                }
+                                            }}
+                                        />
+                                    </Col>
+                                </> : null
+                        }
                     </Row>
                 </ProForm>
             </Modal >
