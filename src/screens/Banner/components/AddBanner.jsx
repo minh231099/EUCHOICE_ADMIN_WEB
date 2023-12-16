@@ -38,6 +38,7 @@ const AddBanner = (props) => {
             form.resetFields();
             setFileList([]);
             props.onClose();
+            setIsSide(false);
             message.success(t("createBannerSuccessfully"));
         }
         if (isCreateEr) {
@@ -60,6 +61,7 @@ const AddBanner = (props) => {
     const onClose = () => {
         props.onClose();
         form.resetFields();
+        setIsSide(false);
         setFileList([]);
     }
     const handlePreview = async (file) => {

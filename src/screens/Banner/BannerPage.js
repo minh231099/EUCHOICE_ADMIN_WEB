@@ -81,6 +81,7 @@ const BannerPage = (props) => {
     const [refreshing, setRefreshing] = useState(undefined);
     const [dataSource, setDataSource] = useState([]);
     const [visible, setVisible] = useState(false);
+    const [tab, setTab] = useState(1);
     const [visibleDlt, setVisibleDlt] = useState(false);
     const [visibleUpd, setVisibleUpd] = useState(false);
     const [dataRow, setDataRow] = useState(undefined);
@@ -92,7 +93,7 @@ const BannerPage = (props) => {
 
     const dispatch = useDispatch();
 
-    const filterListBanner = (params, sort, isTop, isPos) => {
+    const filterListBanner = (params, sort) => {
         const options = {
             current: params.current,
             pageSize: params.pageSize,
@@ -101,7 +102,15 @@ const BannerPage = (props) => {
         const filter = {
             name: params?.name,
         };
-        dispatch(getListBanner({ filter, options }, isTop, isPos));
+        if (tab == 1)
+            dispatch(getListBanner({ filter, options }, true, false));
+        if (tab == 2) {
+            dispatch(getListBanner({ filter, options }, false, false));
+        }
+        if (tab == 3) {
+            dispatch(getListBanner({ filter, options }, false, true));
+        }
+        console.log(tab)
         setRefreshing(null);
     };
 
@@ -318,7 +327,7 @@ const BannerPage = (props) => {
                             showSizeChanger: true,
                         }}
                         request={async (params, sort) => {
-                            filterListBanner(params, sort, true, false);
+                            filterListBanner(params, sort);
                         }}
                         dateFormatter="string"
                         toolBarRender={() => [
@@ -366,7 +375,7 @@ const BannerPage = (props) => {
                             showSizeChanger: true,
                         }}
                         request={async (params, sort) => {
-                            filterListBanner(params, sort, false, false);
+                            filterListBanner(params, sort);
                         }}
                         dateFormatter="string"
                         toolBarRender={() => [
@@ -414,7 +423,7 @@ const BannerPage = (props) => {
                             showSizeChanger: true,
                         }}
                         request={async (params, sort) => {
-                            filterListBanner(params, sort, false, true);
+                            filterListBanner(params, sort);
                         }}
                         dateFormatter="string"
                         toolBarRender={() => [
@@ -434,7 +443,7 @@ const BannerPage = (props) => {
     ];
     return (
         <div>
-            <Tabs defaultActiveKey="1" items={items} onChange={(e) => { onChange(e) }} />
+            <Tabs defaultActiveKey="1" items={items} onChange={(e) => { onChange(e), setTab(e) }} />
             <AddBanner visible={visible} onClose={onClose} setRefreshing={setRefreshing} />
             <UpdateBanner visible={visibleUpd} onClose={onCloseUpd} data={dataRow} />
             <DeleteBanner visible={visibleDlt} onClose={onCloseDlt} data={dataRow} />
