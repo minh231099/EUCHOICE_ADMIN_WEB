@@ -92,7 +92,7 @@ const BannerPage = (props) => {
 
     const dispatch = useDispatch();
 
-    const filterListBanner = (params, sort, isTop) => {
+    const filterListBanner = (params, sort, isTop, isPos) => {
         const options = {
             current: params.current,
             pageSize: params.pageSize,
@@ -101,7 +101,7 @@ const BannerPage = (props) => {
         const filter = {
             name: params?.name,
         };
-        dispatch(getListBanner({ filter, options }, isTop));
+        dispatch(getListBanner({ filter, options }, isTop, isPos));
         setRefreshing(null);
     };
 
@@ -113,10 +113,13 @@ const BannerPage = (props) => {
         const options = {};
         const filter = {};
         if (e == 1) {
-            dispatch(getListBanner({ filter, options }, true));
+            dispatch(getListBanner({ filter, options }, true, false));
         }
         if (e == 2) {
-            dispatch(getListBanner({ filter, options }, false));
+            dispatch(getListBanner({ filter, options }, false, false));
+        }
+        if (e == 3) {
+            dispatch(getListBanner({ filter, options }, false, true));
         }
     }
 
@@ -315,7 +318,7 @@ const BannerPage = (props) => {
                             showSizeChanger: true,
                         }}
                         request={async (params, sort) => {
-                            filterListBanner(params, sort, true);
+                            filterListBanner(params, sort, true, false);
                         }}
                         dateFormatter="string"
                         toolBarRender={() => [
@@ -363,7 +366,55 @@ const BannerPage = (props) => {
                             showSizeChanger: true,
                         }}
                         request={async (params, sort) => {
-                            filterListBanner(params, sort, false);
+                            filterListBanner(params, sort, false, false);
+                        }}
+                        dateFormatter="string"
+                        toolBarRender={() => [
+                            <Button
+                                key="add"
+                                icon={<PlusOutlined />}
+                                type="primary"
+                                onClick={() => { setVisible(true) }}
+                            >
+                                {t('addNewBanner')}
+                            </Button>,
+                        ]}
+                    />
+                </SortableContext>
+            </DndContext>
+        },
+        {
+            key: '3',
+            label: t('sideBanner'),
+            children: <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+                <SortableContext
+                    items={dataSource.map((i) => i.key)}
+                    strategy={verticalListSortingStrategy}
+                >
+                    <ProTable
+                        components={{
+                            body: {
+                                row: Row,
+                            },
+                        }}
+                        loading={isFetching}
+                        polling={refreshing}
+                        search={false}
+                        rowKey="key"
+                        rowClassName={(record) => record.color?.replace('#', '')}
+                        columns={columns}
+                        dataSource={dataSource}
+                        scroll={{ x: 1500 }}
+                        columnsState={{
+                            persistenceKey: 'pro-table-singe-demos',
+                            persistenceType: 'localStorage',
+                        }}
+                        pagination={{
+                            ...pagination,
+                            showSizeChanger: true,
+                        }}
+                        request={async (params, sort) => {
+                            filterListBanner(params, sort, false, true);
                         }}
                         dateFormatter="string"
                         toolBarRender={() => [

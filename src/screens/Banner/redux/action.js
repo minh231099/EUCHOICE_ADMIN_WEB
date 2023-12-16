@@ -26,10 +26,10 @@ const {
 
 const getListBannerType = { prefix: BANNER, type: GET_ALL_BANNER_MAIN };
 
-export const getListBanner = (params, isTop) => async (dispatch) => {
+export const getListBanner = (params, isTop, isPos) => async (dispatch) => {
     const { current, pageSize } = params.options;
     const payload = params.filter;
-    const api = isTop ? API_URLS.BANNER.getListBanner(current, pageSize, '&top=true') : API_URLS.BANNER.getListBanner(current, pageSize, '');
+    const api = isTop ? API_URLS.BANNER.getListBanner(current, pageSize, '&top=true') : (isPos ? API_URLS.BANNER.getListBanner(current, pageSize, '&pos=true') : API_URLS.BANNER.getListBanner(current, pageSize, ''));
     dispatch(isDispatchCalling(getListBannerType));
     const { response, error } = await apiCall({ ...api, payload });
     if (!error && response?.success === true) {
