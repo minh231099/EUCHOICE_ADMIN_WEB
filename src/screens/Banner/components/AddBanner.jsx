@@ -24,6 +24,7 @@ const AddBanner = (props) => {
         });
     }
     const [previewOpen, setPreviewOpen] = useState(false);
+    const [isSide, setIsSide] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
     const [fileList, setFileList] = useState([]);
@@ -37,6 +38,7 @@ const AddBanner = (props) => {
             form.resetFields();
             setFileList([]);
             props.onClose();
+            setIsSide(false);
             message.success(t("createBannerSuccessfully"));
         }
         if (isCreateEr) {
@@ -49,7 +51,9 @@ const AddBanner = (props) => {
     }, [successAdd, isCreateEr, refreshing]);
 
     const onFinish = (values) => {
-        dispatch(uploadBanner(values, fileList))
+        const infoBanner = { ...values };
+        delete infoBanner.isSide
+        dispatch(uploadBanner(infoBanner, fileList))
     }
 
     const handleCancelPreview = () => setPreviewOpen(false);
@@ -57,6 +61,7 @@ const AddBanner = (props) => {
     const onClose = () => {
         props.onClose();
         form.resetFields();
+        setIsSide(false);
         setFileList([]);
     }
     const handlePreview = async (file) => {
@@ -175,8 +180,64 @@ const AddBanner = (props) => {
                                 name="top"
                                 label={t("isMain")}
                                 initialValue={false}
+                                dependencies={['isSide']}
+                                shouldUpdate={(prevValues, curValues) => curValues.isSide === false}
+                                onChange={(value) => {
+                                    if (value) {
+                                        form.setFieldsValue({ isSide: false });
+                                        setIsSide(false)
+                                    }
+                                }}
                             />
                         </Col>
+                        <Col lg={24} md={24} sm={24} xs={24}>
+                            <ProFormSwitch
+                                name="isSide"
+                                label={t("isSide")}
+                                initialValue={false}
+                                dependencies={['top']}
+                                shouldUpdate={(prevValues, curValues) => curValues.top === false}
+                                onChange={(value) => {
+                                    if (value) {
+                                        form.setFieldsValue({ top: false });
+                                    }
+                                    setIsSide(value)
+                                }}
+                            />
+                        </Col>
+                        {
+                            isSide ?
+                                <>
+                                    <Col lg={12} md={12} sm={12} xs={24}>
+                                        <ProFormSwitch
+                                            name="pos1"
+                                            label={t("pos1")}
+                                            initialValue={false}
+                                            dependencies={['pos2']}
+                                            shouldUpdate={(prevValues, curValues) => curValues.pos2 === false}
+                                            onChange={(value) => {
+                                                if (value) {
+                                                    form.setFieldsValue({ pos2: false });
+                                                }
+                                            }}
+                                        />
+                                    </Col>
+                                    <Col lg={12} md={12} sm={12} xs={24}>
+                                        <ProFormSwitch
+                                            name="pos2"
+                                            label={t("pos2")}
+                                            initialValue={false}
+                                            dependencies={['pos1']}
+                                            shouldUpdate={(prevValues, curValues) => curValues.pos1 === false}
+                                            onChange={(value) => {
+                                                if (value) {
+                                                    form.setFieldsValue({ pos1: false });
+                                                }
+                                            }}
+                                        />
+                                    </Col>
+                                </> : null
+                        }
                     </Row>
                 </ProForm>
             </Modal >
