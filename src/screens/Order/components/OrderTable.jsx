@@ -56,7 +56,7 @@ const OrderTable = (props) => {
         return tmp.length > 0;
     }
 
-    
+
     const onClickChangeStatusToPacking = (order) => {
         order.status = 'packing';
         changeOrderStatusToPacking(order._id);
@@ -98,6 +98,21 @@ const OrderTable = (props) => {
                         style={{ display: "flex", width: 'fit-content', alignItems: 'center' }}
                     >
                         <span style={{ fontSize: 14 }}>{t(`lower${text}`)}</span>
+                    </Tag>
+                );
+            }
+        },
+        {
+            title: t('paymentStatus'),
+            key: 'paid',
+            dataIndex: 'paid',
+            render: (value) => {
+                return (
+                    <Tag
+                        color={value ? 'green' : undefined}
+                        style={{ display: "flex", width: 'fit-content', alignItems: 'center' }}
+                    >
+                        <span style={{ fontWeight: 700 }}>{value ? t('paid') : t('unpaid')}</span>
                     </Tag>
                 );
             }

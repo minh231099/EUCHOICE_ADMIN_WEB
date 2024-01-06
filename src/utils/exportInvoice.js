@@ -80,7 +80,7 @@ const getTotalPrice = (cart) => {
 }
 
 const createInvoice = (doc, record) => {
-    const { warehouse, shippingInfo, cart, createdAt } = record;
+    const { warehouse, shippingInfo, cart, createdAt, paid } = record;
 
     const canvas = document.createElement("canvas");
     JsBarcode(canvas, record.orderId);
@@ -128,7 +128,7 @@ const createInvoice = (doc, record) => {
         { content: `Order Date: ${convertToDateTime(createdAt)}`, colSpan: 1, },
         { content: `Total Items: ${cart.length}`, colSpan: 1, },
         {
-            content: `Total Price:\n${convertNumberToMoney(getTotalPrice(cart))} vnd`,
+            content: `Total Price:\n${paid ? 0 : convertNumberToMoney(getTotalPrice(cart))} vnd`,
             rowSpan: 2,
             styles: {
                 valign: 'middle',

@@ -193,6 +193,9 @@ export default {
             isSale: 'Is Sale?',
             onSale: 'On Sale!',
             notOnSale: 'Not On Sale!',
+            paid: 'Paid',
+            unpaid: 'Unpaid',
+            paymentStatus: 'Payment Status',
         },
     },
     vn: {
@@ -389,6 +392,9 @@ export default {
             isSale: 'Có giảm giá?',
             onSale: 'Đang giảm giá!',
             notOnSale: 'Không giảm giá!',
+            paid: 'Đã Thanh Toán',
+            unpaid: 'Chưa Thanh Toán',
+            paymentStatus: 'Tình Trạng Thanh Toán',
         },
     },
 }
