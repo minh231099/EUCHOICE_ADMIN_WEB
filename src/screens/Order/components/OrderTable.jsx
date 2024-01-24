@@ -103,6 +103,14 @@ const OrderTable = (props) => {
             }
         },
         {
+            title: t('paymentMethod'),
+            key: 'paymentMethod',
+            dataIndex: 'paymentMethod',
+            render: (value) => {
+                return <span>{value.toUpperCase()}</span>;
+            }
+        },
+        {
             title: t('paymentStatus'),
             key: 'paid',
             dataIndex: 'paid',

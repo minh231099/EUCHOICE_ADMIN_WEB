@@ -200,6 +200,7 @@ export default {
             paid: 'Paid',
             unpaid: 'Unpaid',
             paymentStatus: 'Payment Status',
+            paymentMethod: 'Payment Method',
         },
     },
     vn: {
@@ -403,6 +404,7 @@ export default {
             paid: 'Đã Thanh Toán',
             unpaid: 'Chưa Thanh Toán',
             paymentStatus: 'Tình Trạng Thanh Toán',
+            paymentMethod: 'Phương Thức Thanh Toán',
         },
     },
 }
