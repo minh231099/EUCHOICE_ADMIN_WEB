@@ -20,6 +20,7 @@ const CategoryScreen = (props) => {
         changeOrderStatusToPacking,
         cancelStatus,
         cancelListOrders,
+        pagination,
     } = props;
     const [refreshing, setRefreshing] = useState(undefined);
     const [listOrders, setListOrders] = useState([]);
@@ -98,6 +99,7 @@ const CategoryScreen = (props) => {
                 onDelete={onDeleteOrder}
                 changeOrderStatusToPacking={onChangeOrderStatusToPacking}
                 printInvoice={printInvoice}
+                pagination={pagination}
             />
         </div>
     );
@@ -109,6 +111,7 @@ function mapStateToProps(state) {
         isFetching: select(state, 'orderReducer', 'isFetching'),
         changeStatus: select(state, 'orderReducer', 'changeStatus'),
         cancelStatus: select(state, 'orderReducer', 'cancelStatus'),
+        pagination: select(state, 'orderReducer', 'pagination'),
     };
 }
 
